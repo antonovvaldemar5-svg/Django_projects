@@ -1,0 +1,18 @@
+[project]
+name = "pythonproject8"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Vladimir",email = "antonovvaldemar5@gmail.com"}
+]
+package-mode = false
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.3,<7.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
