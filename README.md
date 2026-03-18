@@ -12,6 +12,7 @@
 
 1. Клонировать репозиторий:
 ```bash
+# Проект готов к сдаче
 # Pull Request Test
 Этот PR создан для проверки.
 git clone https://github.com/antonovvaldemar5-svg/Django_projects.git
