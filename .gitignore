@@ -28,8 +28,7 @@ staticfiles/
 *.swo
 *~
 
-# Poetry
-poetry.lock
+
 
 # Проект
 .DS_Store
