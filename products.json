@@ -1,2 +1,28 @@
 [
+{
+  "model": "catalog.product",
+  "pk": 3,
+  "fields": {
+    "name": "Масло 5w40",
+    "description": "",
+    "image": "",
+    "category": 9,
+    "price": "1250.00",
+    "created_at": "2026-03-26T03:19:18.521Z",
+    "updated_at": "2026-03-26T03:19:18.521Z"
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 4,
+  "fields": {
+    "name": "Шаровая опора",
+    "description": "",
+    "image": "",
+    "category": 10,
+    "price": "3600.00",
+    "created_at": "2026-03-26T03:19:30.774Z",
+    "updated_at": "2026-03-26T03:19:30.775Z"
+  }
+}
 ]
