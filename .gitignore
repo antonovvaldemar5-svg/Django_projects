@@ -33,3 +33,4 @@ staticfiles/
 # Проект
 .DS_Store
 Thumbs.db
+.env
