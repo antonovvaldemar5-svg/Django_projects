@@ -3,7 +3,7 @@
   "model": "catalog.product",
   "pk": 3,
   "fields": {
-    "name": "Масло 5w40",
+    "name": "РњР°СЃР»Рѕ 5w40",
     "description": "",
     "image": "",
     "category": 9,
