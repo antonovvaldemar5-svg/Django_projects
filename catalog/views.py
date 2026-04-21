@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView
-
 from .models import Product
+from django.urls import reverse
+from .forms import Product
 
 class HomeListView(ListView):
     model = Product
@@ -18,6 +19,57 @@ class ProductDetailView(DetailView):
 class ContactsTemplateView(TemplateView):
     model = Product
     template_name = "catalog/contacts.html"
+
+
+def product_create(request):
+    if request.method == 'POST':
+        form = Product(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = Product()
+
+    return render(request, 'catalog/product_form.html', {
+        'form': form,
+        'title': 'Создание продукта'
+    })
+
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'catalog/product_list.html', {
+        'products': products
+    })
+
+
+def product_update(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+
+    if request.method == 'POST':
+        form = Product(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = Product(instance=product)
+
+    return render(request, 'catalog/product_form.html', {
+        'form': form,
+        'title': 'Редактирование продукта'
+    })
+
+
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+
+    if request.method == 'POST':
+        product.delete()
+        return redirect('product_list')
+
+    return render(request, 'catalog/product_confirm_delete.html', {
+        'product': product
+    })
 
 
 
