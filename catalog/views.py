@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import Product
 from django.urls import reverse
-from .forms import Product
+from .forms import ProductForm
 
 class HomeListView(ListView):
     model = Product
@@ -23,12 +23,12 @@ class ContactsTemplateView(TemplateView):
 
 def product_create(request):
     if request.method == 'POST':
-        form = Product(request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('product_list')
     else:
-        form = Product()
+        form = ProductForm()
 
     return render(request, 'catalog/product_form.html', {
         'form': form,
@@ -47,12 +47,12 @@ def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
     if request.method == 'POST':
-        form = Product(request.POST, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
             return redirect('product_list')
     else:
-        form = Product(instance=product)
+        form = ProductForm(instance=product)
 
     return render(request, 'catalog/product_form.html', {
         'form': form,

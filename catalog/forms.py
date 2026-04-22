@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from .models import Product
 
 
-class Product(forms.ModelForm):
+class ProductForm(forms.ModelForm):
      FORBIDEN_WORDS = [
          "казино", "криптовалюта", "крипта",
          "биржа", "дешево", "бесплатно", "обман",
