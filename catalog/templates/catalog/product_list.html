@@ -1,11 +1,22 @@
-<h1>Список продуктов</h1>
-<a href="{% url 'product_create' %}">Добавить продукт</a>
-<ul>
-    {% for product in products %}
-        <li>
-            {{ product.name }} - {{ product.price }} руб.
-            <a href="{% url 'product_update' product.pk %}">Изменить</a>
-            <a href="{% url 'product_delete' product.pk %}">Удалить</a>
-        </li>
-    {% endfor %}
-</ul>
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Список продуктов</h1>
+        <a href="{% url 'catalog:product_create' %}" class="btn btn-primary">Добавить продукт</a>
+    </div>
+
+    <ul class="list-group">
+        {% for product in products %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ product.name }} - {{ product.price }} руб.
+                <div>
+                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-warning">Изменить</a>
+                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -3,9 +3,11 @@
 {% block content %}
 <div class="container mt-5">
     <h1>{{ product.name }}</h1>
-    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+    {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid mb-3">
+    {% endif %}
     <p>{{ product.description }}</p>
     <p>Цена: {{ product.price }} руб.</p>
-    <a href="{% url 'catalog:home' %}" class="btn btn-secondary">Назад</a>
+    <a href="{% url 'catalog:product_list' %}" class="btn btn-secondary">Назад к списку</a>
 </div>
 {% endblock %}
