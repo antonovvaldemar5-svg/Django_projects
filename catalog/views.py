@@ -26,7 +26,7 @@ def product_create(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            return redirect('catalog:product_list')
     else:
         form = ProductForm()
 
@@ -50,7 +50,7 @@ def product_update(request, pk):
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            return redirect('catalog:product_list')
     else:
         form = ProductForm(instance=product)
 
@@ -65,7 +65,7 @@ def product_delete(request, pk):
 
     if request.method == 'POST':
         product.delete()
-        return redirect('product_list')
+        return redirect('catalog:product_list')
 
     return render(request, 'catalog/product_confirm_delete.html', {
         'product': product
