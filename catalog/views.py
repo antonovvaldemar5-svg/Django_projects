@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from .models import Product
 from .forms import ProductForm
 
@@ -22,7 +23,9 @@ def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            product = form.save(commit=False)
+            product.owner = request.user
+            product.save()
             return redirect('catalog:product_list')
     else:
         form = ProductForm()
@@ -30,7 +33,6 @@ def product_create(request):
         'form': form,
         'title': 'Создание продукта'
     })
-
 
 def product_list(request):
     products = Product.objects.all()
@@ -41,6 +43,8 @@ def product_list(request):
 @login_required
 def product_update(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    if product.owner != request.user and not request.user.has_perm('catalog.can_unpublish_product'):
+        raise PermissionDenied
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
@@ -56,6 +60,8 @@ def product_update(request, pk):
 @login_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    if product.owner != request.user and not request.user.has_perm('catalog.can_unpublish_product'):
+        raise PermissionDenied
     if request.method == 'POST':
         product.delete()
         return redirect('catalog:product_list')
@@ -63,4 +69,12 @@ def product_delete(request, pk):
         'product': product
     })
 
+@login_required
+def unpublish_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if not request.user.has_perm('catalog.can_unpublish_product'):
+        raise PermissionDenied
+    product.is_published = False
+    product.save()
+    return redirect('catalog:product_list')
 
