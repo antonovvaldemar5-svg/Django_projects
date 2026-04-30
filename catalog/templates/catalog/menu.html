@@ -15,6 +15,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'catalog:contacts' %}">Контакты</a>
                 </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link text-info">{{ user.email }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'users:logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 0;">Выйти</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
