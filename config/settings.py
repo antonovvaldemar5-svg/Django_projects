@@ -115,3 +115,13 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'valdemare.antonov@yandex.ru'
 EMAIL_HOST_PASSWORD = '4d1e8f6a9b5c7f4'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
