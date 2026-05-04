@@ -1,0 +1,47 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Товары в категории</h1>
+    
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4">
+                <div class="card mb-4 h-100">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">Нет фото</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <p class="card-text"><strong>{{ product.price }} руб.</strong></p>
+                        <div class="mt-auto">
+                            <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary">Подробнее</a>
+                            {% if user.is_authenticated %}
+                                {% if product.owner == user or perms.catalog.can_unpublish_product %}
+                                    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-sm btn-warning mt-2">Изменить</a>
+                                    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-sm btn-danger mt-2">Удалить</a>
+                                {% endif %}
+                                {% if perms.catalog.can_unpublish_product %}
+                                    <form method="post" action="{% url 'catalog:unpublish' product.pk %}" class="mt-2">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-secondary">Снять с публикации</button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p>Нет товаров в этой категории.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
